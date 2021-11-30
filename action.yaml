@@ -29,6 +29,9 @@ inputs:
   sources:
     description: 'Source files and folders required'
     required: true
+  script:
+    description: 'String script to execute on server'
+    required: false
   tag:
     description: 'Release tag name'
     required: true
@@ -70,3 +73,15 @@ runs:
       proxy_key: ${{ inputs.proxy-key }}
       source: "${{ github.event.repository.name }}"
       target: "${{ inputs.directory }}"
+
+  # Execute commands
+  - name: Execute server side script   
+    uses: appleboy/ssh-action@master
+    with:
+      host: ${{ inputs.host }}
+      username: ${{ inputs.username }}
+      key: ${{ inputs.key }}
+      proxy_host: ${{ inputs.proxy-host }}
+      proxy_username: ${{ inputs.proxy-username }}
+      proxy_key: ${{ inputs.proxy-key }}
+      script: ${{ inputs.script }}
