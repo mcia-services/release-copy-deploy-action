@@ -19,6 +19,9 @@ inputs:
   proxy-key:
     description: 'ssh proxy server key'
     required: false
+  github-token:
+    description: 'github token'
+    required: true
   directory:
     description: 'Host directory for deployment'
     required: true
@@ -47,7 +50,7 @@ runs:
   - name: Release
     uses: marvinpinto/action-automatic-releases@latest
     with:
-      repo_token: ${{ secrets.GITHUB_TOKEN }}
+      repo_token: ${{ inputs.github-token }}
       automatic_release_tag: ${{ inputs.tag }}
       prerelease: false
       files: |
