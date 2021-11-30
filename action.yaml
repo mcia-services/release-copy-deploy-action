@@ -1,0 +1,67 @@
+name: 'Release, copy and deploy to server'
+description: 'Greet someone'
+inputs:
+  host:
+    description: 'Server host'
+    required: true
+  username:
+    description: 'Server username'
+    required: true
+  key:
+    description: 'Server key'
+    required: true
+  proxy-host:
+    description: 'ssh proxy server host'
+    required: false
+  proxy-username:
+    description: 'ssh proxy server username'
+    required: false
+  proxy-key:
+    description: 'ssh proxy server key'
+    required: false
+  directory:
+    description: 'Host directory for deployment'
+    required: true
+  sources:
+    description: 'Source files and folders required'
+    required: true
+  tag:
+    description: 'Release tag name'
+    required: true
+runs:
+  using: "composite"
+  steps:
+steps:
+  
+  - uses: actions/checkout@master
+
+  # Create the relase artifact
+  - name: Create the folder
+    run: mkdir ${{ github.event.repository.name }}
+  - name: Move sources
+    run: mv ${{ inputs.sources }} ./${{ github.event.repository.name }}/
+  - name: Compress the folder
+    run: tar -cf "${{ github.event.repository.name }}.tar" ./${{ github.event.repository.name }}
+
+  # Publish release
+  - name: Release
+    uses: marvinpinto/action-automatic-releases@latest
+    with:
+      repo_token: ${{ secrets.GITHUB_TOKEN }}
+      automatic_release_tag: ${{ inputs.tag }}
+      prerelease: false
+      files: |
+        ./*.tar
+
+  # Copy on server
+  - name: Copy artifact to server
+    uses: appleboy/scp-action@master
+    with:
+      host: ${{ inputs.host }}
+      username: ${{ inputs.username }}
+      key: ${{ inputs.key }}
+      proxy_host: ${{ inputs.proxy-host }}
+      proxy_username: ${{ inputs.proxy-username }}
+      proxy_key: ${{ inputs.proxy-key }}
+      source: "${{ github.event.repository.name }}"
+      target: "${{ inputs.directory }}"
