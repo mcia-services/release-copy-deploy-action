@@ -31,17 +31,19 @@ inputs:
 runs:
   using: "composite"
   steps:
-steps:
-  
+
   - uses: actions/checkout@master
 
   # Create the relase artifact
   - name: Create the folder
     run: mkdir ${{ github.event.repository.name }}
+    shell: bash
   - name: Move sources
     run: mv ${{ inputs.sources }} ./${{ github.event.repository.name }}/
+    shell: bash
   - name: Compress the folder
     run: tar -cf "${{ github.event.repository.name }}.tar" ./${{ github.event.repository.name }}
+    shell: bash
 
   # Publish release
   - name: Release
