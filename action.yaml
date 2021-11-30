@@ -1,5 +1,6 @@
 name: 'Release, copy and deploy to server'
 description: 'Greet someone'
+
 inputs:
   host:
     description: 'Server host'
@@ -31,6 +32,7 @@ inputs:
   tag:
     description: 'Release tag name'
     required: true
+
 runs:
   using: "composite"
   steps:
