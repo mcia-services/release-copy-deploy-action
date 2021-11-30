@@ -30,7 +30,8 @@ inputs:
     required: true
 runs:
   using: "composite"
-  steps:  
+  steps:
+
   # Create the relase artifact
   - name: Create folder
     run: mkdir ${{ github.event.repository.name }}
