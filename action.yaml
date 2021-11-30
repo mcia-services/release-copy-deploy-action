@@ -30,12 +30,8 @@ inputs:
     required: true
 runs:
   using: "composite"
-  steps:
-
-  - uses: actions/checkout@master
-
-  # Create the relase artifact
-  - name: Create the folder
+  steps:  # Create the relase artifact
+  - name: Create folder
     run: mkdir ${{ github.event.repository.name }}
     shell: bash
   - name: Move sources
