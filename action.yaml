@@ -84,4 +84,6 @@ runs:
       proxy_host: ${{ inputs.proxy-host }}
       proxy_username: ${{ inputs.proxy-username }}
       proxy_key: ${{ inputs.proxy-key }}
-      script: ${{ inputs.script }}
+      script: |
+        cd ${{ inputs.directory }}/${{ github.event.repository.name }}
+        ${{ inputs.script }}
