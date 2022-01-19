@@ -32,6 +32,9 @@ inputs:
   script:
     description: 'String script to execute on server'
     required: false
+  envs:
+    description: 'String script environmental variables'
+    required: false
   tag:
     description: 'Release tag name'
     required: true
@@ -84,6 +87,7 @@ runs:
       proxy_host: ${{ inputs.proxy-host }}
       proxy_username: ${{ inputs.proxy-username }}
       proxy_key: ${{ inputs.proxy-key }}
+      envs: ${{inputs.envs}}
       script: |
         cd ${{ inputs.directory }}/${{ github.event.repository.name }}
         ${{ inputs.script }}
